@@ -1,0 +1,120 @@
+---
+layout: default
+---
+
+<div class="home">
+	<div class="container">
+		<div class="row section text-center">
+			<h1 Style="font-family:Delicious">Tricity Scala User Group</h1>
+			<hr width="80%">
+			<h2>Try, Enjoy & Learn Scala with us!</h2>
+		</div>
+	</div>
+	<div class="container">
+		<div id="events" class="row section text-center">
+			<h1>Events</h1>
+			<hr>
+			<ul id="next-events" class="list-unstyled">
+				<li></li>
+			</ul>
+
+<script type="text/javascript" charset="utf-8">
+	//url to calendar https://www.google.com/calendar/feeds/USER-NAME@gmail.com/public/basic?orderby=starttime&sortorder=ascending&futureevents=true&alt=json
+	jQuery.ajax({dataType: "jsonp",
+	url: "https://www.google.com/calendar/feeds/patryk.zakrzewski31@gmail.com/public/basic?orderby=starttime&sortorder=ascending&futureevents=true&alt=json",
+	data:null,
+	success: function(data){
+    // Utility method to pad a string on the left
+      // Source: http://sajjadhossain.com/2008/10/31/javascript-string-trimming-and-padding/
+      function lpad(str, pad_string, length) {
+        var str = new String(str);
+        while (str.length < length)
+          str = pad_string + str;
+        return str;
+      };
+      // Parse and render each event
+      jQuery.each(data.feed.entry, function(i, item){
+        if(i == 0) {
+          jQuery("#next-events li").first().hide();
+        };
+        var event_url = jQuery.trim(item.link[0].href);
+        var event_header = item.title.$t;
+        if(event_url.length > 0) {
+          event_header = "<a href='" + event_url + "'>" + event_header + "</a>";
+        };
+        // Format the date string
+        var s = item.content.$t.split(" ");
+        var to = s[5].split("\n");
+        var user = item.author[0].email.$t.split("@");
+        var event_id = event_url.split("=");
+        var event_add = "<a target='_blank' href='https://www.google.com/calendar/event?action=TEMPLATE&tmeid=" + event_id[1] + "&tmsrc=" + item.author[0].email.$t + "'><img border='" + "0" + "' src='" + "https://www.google.com/calendar/images/ext/gc_button1_pl.gif'></a>"
+        //user[0] += "?sz=150>";
+        var desc = " ";
+        for(var i = 15; i < s.length; i++){
+			desc += s[i] + " ";
+		}
+        var d = new Date(s[2]);
+        var d_string = '<strong>' + d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate() + '</strong>';
+        // Render the event
+        jQuery("#next-events li").last().before(
+          "<li>"
+          + "<div class='container'>"          
+          + "<div class='col-md-8 subsection'>"
+          + "<h2>"
+          + event_header
+          + "</h2>"
+          + desc
+          + "</div>"
+          + "<div class='col-md-2 subsection'><br>Date: "
+          + d_string
+          + "<br>Time: "
+          + s[3] +" - "+ to[0]
+          + "</div>"
+          + "<div class='col-md-2 subsection'>"
+          + event_add
+          + "</div></div><hr></li>"
+        );
+      });
+  }});
+      
+</script>
+		</div>
+			</div>
+			<div class="container">
+				<div id="join" class="row section text-center">
+					<h1>Join Us!</h1>
+						<hr>
+					
+					<div class="col-md-4 subsection">
+						<!--<div style="color: #666;">
+							<i class="fa fa-comments fa-5x"></i>
+						</div>
+						<h2>Consulting</h2>
+						<p>
+						Experienced professionals ready to teach and help you.
+						</p>-->
+					</div>
+					<div class="col-md-4 subsection">
+						<div style="color: #666;">
+							<span class="fa fa-users fa-5x"></span>
+							
+						</div>
+						<h2>Gruop</h2>
+						<p>
+						Join our Google Group to keep in touch
+						</p>
+						<p><a href="https://groups.google.com/forum/#!forum/tricity-sug" target="_blank"><i class="fa fa-envelope fa-3x"></i></a>
+					</div>
+					<div class="col-md-4 subsection">
+						<!--<div style="color: #666;">
+							<i class="fa fa-book fa-5x"></i>
+						</div>
+						<h2>Training</h2>
+						<p>
+						You don't know Scala yet? We can help you learn in and improve.
+						</p>
+					</div>-->
+				</div>
+				<a class="totop" href="#">Back To Top</a>
+			</div>
+</div>
